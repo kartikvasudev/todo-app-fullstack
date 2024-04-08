@@ -1,10 +1,14 @@
 let express = require('express')
-let {createTodo, updateTodo} = require('./types')
+let {createTodo, updateTodo, deleteTodo} = require('./types')
 let todo = require('./db')
 let App = express();
+let Cors = require('cors')
+
 
 App.use(express.json())
-
+App.use(Cors({
+    origin: "http://localhost:5173"
+}))
 /* body {
     title: string,
     description: string
@@ -19,13 +23,14 @@ App.post('/todo', async function(req, res){
         title: req.body.title,
         description: req.body.description
     })
-    res.json({
+    return res.json({
         msg: "Todo created successfully"
     })
 })
 
-App.get('/todos', function(req, res){
-
+App.get('/todos', async function(req, res){
+    let todos = await todo.find({});
+    return res.status(200).json(todos);
 })
 
 App.get('/health', function(req, res){
@@ -37,13 +42,24 @@ App.put('/markComplete', async function(req, res){
     let parsedBody = updateTodo.safeParse(body)
     if(!parsedBody.success)
     return res.status(417).json({error: "Invalid Input"})
-    await todo.update({
-        _id: req.body.id
+    await todo.findOneAndUpdate({
+        _id: req.body._id
     },{
         completed: true
     })
-    res.status(200).json({
+    return res.status(200).json({
         msg: "Todo updated successfully"
+    })
+})
+
+App.delete('/deleteTodo', async function(req, res){
+    let body = req.body;
+    let parsedBody = deleteTodo.safeParse(body)
+    if(!parsedBody.success)
+    return res.status(417).json({error: "Invalid Input"})
+    await todo.findByIdAndDelete(req.body._id)
+    return res.status(200).json({
+        msg: "Todo deleted successfully"
     })
 })
 
