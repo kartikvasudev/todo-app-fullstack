@@ -1,0 +1,19 @@
+{
+  "name": "playpal",
+  "version": "1.0.0",
+  "description": "Backend for an application that seeks to connect players for any outdoor game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kartikvasudev/PlayPal.git"
+  },
+  "author": "Kartik Vasudev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kartikvasudev/PlayPal/issues"
+  },
+  "homepage": "https://github.com/kartikvasudev/PlayPal#readme"
+}
